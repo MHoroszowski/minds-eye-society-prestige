@@ -1,0 +1,3 @@
+MindsEyeSocietyLibraryBundle_homepage:
+    resource: "@MindsEyeSocietyLibraryBundle/Controller/DefaultController.php"
+    type: annotation
