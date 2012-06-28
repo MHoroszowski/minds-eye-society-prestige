@@ -12,13 +12,14 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use MindsEyeSociety\LibraryBundle\Entity\Award;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class DefaultController extends Controller
 {
     /**
      * Show available options for this bundle
      *
-     * @Route("/hello", name="index")
+     * @Route("/", name="index")
      * @Template()
      */
     public function indexAction()
@@ -34,14 +35,15 @@ class DefaultController extends Controller
     public function uploadAction(Request $request)
     {
         $collectionConstraint = new Collection(array(
-            'awards' => array(new File()),
+            'awards' => array(new File())
         ));
 
         $form = $this->createFormBuilder(null, array('validation_constraint' => $collectionConstraint))
             ->add('awards', 'file')
             ->getForm();
+
         if ($request->getMethod() == 'POST') {
-            $numberOfAwardsSaved = 0;
+            $awards = new ArrayCollection();
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $formData = $form->getData();
@@ -50,8 +52,8 @@ class DefaultController extends Controller
                     while (($data = fgetcsv($handle)) !== FALSE) {
                         try {
                             $award = new Award();
-                            $award->setAwardedDate(new \DateTime($data[0], new \DateTimeZone('America/New_York')));
-                            $award->setEarnedDate(new \DateTime($data[1], new \DateTimeZone('America/New_York')));
+                            $award->setAwardedDate(new \DateTime($data[0]));
+                            $award->setEarnedDate(new \DateTime($data[1]));
                             $award->setMemberNumber($data[2]);
                             $award->setCategory($data[3]);
                             $award->setDescription($data[4]);
@@ -62,11 +64,7 @@ class DefaultController extends Controller
                             $errors = $validator->validate($award);
 
                             if ($errors->count() == 0) {
-                                $em = $this->getDoctrine()->getEntityManager();
-                                $em->persist($award);
-                                $em->flush();
-
-                                $numberOfAwardsSaved++;
+                                $awards[] = $award;
                             }
 
                         } catch (\Exception $e) {
@@ -76,11 +74,11 @@ class DefaultController extends Controller
                     fclose($handle);
                 }
             }
-
-            echo "Upload $numberOfAwardsSaved Awards";
-            die;
+            $view = $this->render("MindsEyeSocietyLibraryBundle:Default:uploadReview.html.twig", array('awards' => $awards));
+        } else {
+            $view = $this->render("MindsEyeSocietyLibraryBundle:Default:uploadForm.html.twig", array('form' => $form->createView()));
         }
 
-        return $this->render("MindsEyeSocietyLibraryBundle:Default:uploadForm.html.twig", array('form' => $form->createView()));
+        return $view;
     }
 }
