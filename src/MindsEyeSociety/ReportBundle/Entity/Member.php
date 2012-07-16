@@ -2,9 +2,9 @@
 
 namespace MindsEyeSociety\ReportBundle\Entity;
 
-use MindsEyeSociety\ReportBundle\Entity\Location;
-
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -53,6 +53,19 @@ class Member
      */
     private $homeLocation;
 
+    /**
+     * @var ArrayCollection $receivedAwards
+     *
+     * @ORM\OneToMany(targetEntity="Award", mappedBy="receivingMember")
+     */
+    private $receivedAwards;
+
+    /**
+     * @var ArrayCollection $approvedAwards
+     *
+     * @ORM\OneToMany(targetEntity="Award", mappedBy="approvingMember")
+     */
+    private $approvedAwards;
 
     /**
      * Get id
@@ -122,5 +135,40 @@ class Member
     public function getHomeLocation()
     {
         return $this->homeLocation;
+    }
+    public function __construct()
+    {
+        $this->receivedAwards = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->approvedAwards = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add receivedAwards
+     *
+     * @param MindsEyeSociety\ReportBundle\Entity\Award $receivedAwards
+     */
+    public function addAward(\MindsEyeSociety\ReportBundle\Entity\Award $receivedAwards)
+    {
+        $this->receivedAwards[] = $receivedAwards;
+    }
+
+    /**
+     * Get receivedAwards
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getReceivedAwards()
+    {
+        return $this->receivedAwards;
+    }
+
+    /**
+     * Get approvedAwards
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getApprovedAwards()
+    {
+        return $this->approvedAwards;
     }
 }
