@@ -66,7 +66,7 @@ class Award
     /**
      * @var string $note
      *
-     * @ORM\Column(name="note", type="string", length=1023)
+     * @ORM\Column(name="note", type="string", length=1023, nullable=true)
      */
     private $note;
 
