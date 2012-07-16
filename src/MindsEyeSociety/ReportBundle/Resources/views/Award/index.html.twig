@@ -1,0 +1,49 @@
+<h1>Award list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Earned</th>
+            <th>Awarded</th>
+            <th>Value</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Note</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('award_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{% if entity.earned %}{{ entity.earned|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.awarded %}{{ entity.awarded|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.value }}</td>
+            <td>{{ entity.type }}</td>
+            <td>{{ entity.category }}</td>
+            <td>{{ entity.description }}</td>
+            <td>{{ entity.note }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('award_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('award_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('award_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>

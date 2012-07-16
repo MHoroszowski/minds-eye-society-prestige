@@ -171,4 +171,9 @@ class Member
     {
         return $this->approvedAwards;
     }
+
+    public function __toString()
+    {
+        return "$this->name $this->number";
+    }
 }
