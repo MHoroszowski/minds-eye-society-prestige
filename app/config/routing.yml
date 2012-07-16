@@ -1,5 +1,6 @@
-MindsEyeSocietyLibraryBundle:
-    resource: "@MindsEyeSocietyLibraryBundle/Resources/config/routing.yml"
+MindsEyeSocietyReportBundle:
+    resource: "@MindsEyeSocietyReportBundle/Controller/"
+    type:     annotation
     prefix:   /
 
 # Internal routing configuration to handle ESI

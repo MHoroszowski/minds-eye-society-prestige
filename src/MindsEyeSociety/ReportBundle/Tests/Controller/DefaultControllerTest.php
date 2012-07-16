@@ -1,6 +1,6 @@
 <?php
 
-namespace MindsEyeSociety\LibraryBundle\Tests\Controller;
+namespace MindsEyeSociety\ReportBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

@@ -1,7 +1,0 @@
-MindsEyeSocietyLibraryBundle_homepage:
-    resource: "@MindsEyeSocietyLibraryBundle/Controller/DefaultController.php"
-    type: annotation
-
-MindsEyeSocietyLibraryBundle_award:
-    resource: "@MindsEyeSocietyLibraryBundle/Controller/AwardController.php"
-    type: annotation
